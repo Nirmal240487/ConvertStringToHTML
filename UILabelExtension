@@ -1,0 +1,16 @@
+extension UILabel {
+    func stringFromHtml(html:String) {
+        do {
+            let substitutedString = html.replacingOccurrences(of: "\n", with: "<br>")
+            let modifiedFont = NSString(format:"<span style=\"font-family: '-apple-system', 'HelveticaNeue'; font-size: \(self.font!.pointSize)\">%@</span>" as NSString, substitutedString) as String
+            let data = modifiedFont.data(using: String.Encoding.utf8, allowLossyConversion: true)
+            if let d = data {
+                let str = try NSAttributedString(data: d,
+                                                 options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                                                 documentAttributes: nil)
+                
+                self.attributedText = str
+            }
+        } catch {}
+    }
+}
